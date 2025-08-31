@@ -1,11 +1,12 @@
 from selenium.webdriver.common.by import By
 from model.project import ProjectData
 import time
-
+from fixture.soap import clear
 
 class ProjectHelper:
     def __init__(self, app):
         self.app = app
+
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -60,11 +61,11 @@ class ProjectHelper:
             for row in table.find_elements(By.CSS_SELECTOR, "[class*='row']:not(.row-category)"):
                 cells = row.find_elements(By.TAG_NAME, "td")
                 id = row.find_element( By.XPATH,".//a[contains(@href, 'manage_proj_edit_page.php?project_id=')]").get_attribute("href").split("=")[1]
-                name = cells[0].text
+                name = clear(cells[0].text)
                 status = cells[1].text
                 enabled = cells[2].text
                 view_status = cells[3].text
-                description = cells[4].text
+                description = clear(cells[4].text)
                 self.project_cache.append(ProjectData(id=id, name=name, status=status, enabled=enabled,view_status=view_status,description=description))
             return list(self.project_cache)
 
@@ -78,3 +79,4 @@ class ProjectHelper:
         wd.find_element(By.XPATH, "//input[@value='Delete Project']").click()
         wd.find_element(By.XPATH, "//input[@value='Delete Project']").click()
         self.project_cache = None
+

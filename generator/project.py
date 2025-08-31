@@ -8,5 +8,5 @@ def random_string(prefix, maxlen):
 
 testdata=[
     ProjectData(name=name,description=description)
-    for name in[random_string("name", 15)]
+    for name in[random_string("name", 11)]
     for description in[random_string("description", 15)]]
